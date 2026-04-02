@@ -7,15 +7,16 @@ class Transactions(models.Model):
     )
 
     CATEGORY_CHOICES = [
-        ('Food','Food'),
-        ('Travel','Travel'),
-        ('Shopping','Shopping'),
-        ('Bills','Bills'),
-        ('Entertainment','Entertainment'),
-        ('Health','Health'),
-        ('Salary','Salary'),
-        ('Others','Others')
-    ]
+    ('Shopping', 'Shopping'),
+    ('Food', 'Food'),
+    ('Utilities', 'Utilities'),
+    ('Entertainment', 'Entertainment'),
+    ('Healthcare', 'Healthcare'),
+    ('Transport', 'Transport'),
+    ('Salary', 'Salary'),
+    ('Freelance', 'Freelance'),
+    ('Investment', 'Investment'),
+]
 
     title = models.CharField(max_length=100)
     amount = models.FloatField()
