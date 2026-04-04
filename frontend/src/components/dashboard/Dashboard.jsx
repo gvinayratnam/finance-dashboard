@@ -8,7 +8,7 @@ import { useTransactions } from "../../hooks/useTransactions";
 import { useChartData } from "../../hooks/useChartData";
 import { useFilters } from "../../hooks/useFilters";
 import { calculateSummary } from "../../utils.js/calculations";
-
+import { useTheme } from "../../hooks/useTheme";
 
 const emptyFrom = {
   title: "", amount: "", category: "", type: "expense",
@@ -26,25 +26,32 @@ const Dashboard = () => {
   const resetForm = () => { setFormData(emptyFrom); setEditId(null); };
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+   const { isDark, toggleTheme } = useTheme();
   const { transactions, handleAdd, handleDelete } = useTransactions();
   const { years, lineData, pieData } = useChartData(transactions, year, month);
   const { setSearch, setCategory, setType, filteredTransactions } = useFilters(transactions);
   const { totalIncome, totalExpense, balance } = calculateSummary(transactions);
 
   return (
-    <div className="p-6">
+     <div className="p-6 min-h-screen bg-white dark:bg-gray-900 text-gray-900 ">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-semibold">Finance Dashboard</h1>
-        <select className="border p-2 rounded" value={role} onChange={e => setRole(e.target.value)}>
-          <option value="viewer">viewer</option>
-          <option value="admin">admin</option>
-        </select>
-      </div>
 
-      <div className="mb-4">
-        <span className={`px-3 py-1 rounded-full text-sm ${role === "admin" ? "bg-green-100 text-green-600" : "bg-gray-200 text-gray-600"}`}>
-          Role: {role}
-        </span>
+        <div className="flex gap-3 items-center">
+
+          {/* Toggle button */}
+          <button
+            onClick={toggleTheme}
+            className="w-12 h-6 rounded-full relative transition-colors duration-300 bg-gray-300 dark:bg-blue-600"
+          >
+            <span className={`absolute top-1 left-1 w-4 h-4 rounded-full bg-white shadow transition-transform duration-300 ${isDark ? "translate-x-6" : "translate-x-0"}`} />
+          </button>
+
+          <select className="border p-2 rounded dark:bg-gray-800 dark:border-gray-600 w-50" value={role} onChange={e => setRole(e.target.value)}>
+            <option className="text-red-900! pl-5!" value="viewer"><span>viewer</span></option>
+            <option value="admin">admin</option>
+          </select>
+        </div>
       </div>
 
       <hr />
