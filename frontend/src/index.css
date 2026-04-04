@@ -7,14 +7,22 @@ body {
     font-family: 'Inter', 'Poppins', Arial, sans-serif;
 }
 
-.constainer-p{
-    
+.container-p{
+  padding-left: 5%;
+  padding-right: 5%;
 }
+
 
 .custom-select-dropdown {
   background-color: #ffffff !important;
-  border-radius: 12px !important;
+  border-radius: 10px !important;
   padding: 10px !important;
+  
+}
+
+.custom-select-dropdown .ant-select-item-option {
+  color: black !important;
+  min-width: 150px;
 }
 
 .custom-select-dropdown .ant-select-item-option-selected {
@@ -25,11 +33,13 @@ body {
 
 .dark .custom-select-dropdown {
   background-color: #232d3b !important;
+  padding: 10px !important;
 }
 
 
 .dark .custom-select-dropdown .ant-select-item-option {
   color: #ffffff !important;
+  min-width: 150px;
 }
 
 
