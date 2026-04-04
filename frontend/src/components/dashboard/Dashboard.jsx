@@ -116,7 +116,7 @@ const Dashboard = () => {
 
       <div className="flex justify-between py-4 items-center container-p gap-3">
         <div>
-          <h1 className="sm:text-3xl text-lg font-semibold">Dashboard Overview</h1>
+          <h1 className="sm:text-3xl text-lg font-semibold dark:text-white">Dashboard Overview</h1>
           <p className="text-gray-500 sm:text-base text-xs">Welcome back! Here's your financial summary.</p>
         </div>
         
