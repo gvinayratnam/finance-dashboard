@@ -22,11 +22,17 @@ const Dashboard = () => {
   const [month, setMonth] = useState("");
   const [formData, setFormData] = useState(emptyFrom);
   const [editId, setEditId] = useState(null);
-   
-  const resetForm = () => { setFormData(emptyFrom); setEditId(null); };
+  const [showForm, setShowForm] = useState(false);
+
+  const resetForm = () => {
+  setFormData(emptyFrom);
+  setEditId(null);
+  setShowForm(false); 
+};
+  
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-   const { isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
   const { transactions, handleAdd, handleDelete } = useTransactions();
   const { years, lineData, pieData } = useChartData(transactions, year, month);
   const { setSearch, setCategory, setType, filteredTransactions } = useFilters(transactions);
@@ -48,7 +54,7 @@ const Dashboard = () => {
           </button>
 
           <select className="border p-2 rounded dark:bg-gray-800 dark:border-gray-600 w-50" value={role} onChange={e => setRole(e.target.value)}>
-            <option className="text-red-900! pl-5!" value="viewer"><span>viewer</span></option>
+            <option className="text-red-900! pl-5!" value="viewer">viewer</option>
             <option value="admin">admin</option>
           </select>
         </div>
@@ -82,12 +88,28 @@ const Dashboard = () => {
       <Filters setSearch={setSearch} setCategory={setCategory} setType={setType} />
 
       {role === "admin" && (
-        <TransactionForm formData={formData} handleChange={handleChange} editId={editId}
-          handleAdd={() => handleAdd(formData, editId, resetForm)} />
-      )}
+  <>
+    <button
+      onClick={() => setShowForm(true)}
+      className="mb-4 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium"
+    >
+      + Add Transaction
+    </button>
+
+    {showForm && (
+      <TransactionForm
+        formData={formData}
+        handleChange={handleChange}
+        editId={editId}
+        handleAdd={() => handleAdd(formData, editId, resetForm)}
+        onClose={resetForm}
+      />
+    )}
+  </>
+)}
 
       <TransactionTable transactions={filteredTransactions} role={role} onDelete={handleDelete}
-        onEdit={t => { setFormData(t); setEditId(t.id); }} />
+        onEdit={t => { setFormData(t); setEditId(t.id); setShowForm(true); }}/>
     </div>
   );
 };
