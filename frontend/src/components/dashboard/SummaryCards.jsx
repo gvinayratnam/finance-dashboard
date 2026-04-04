@@ -24,7 +24,7 @@ const SummaryCards = ({ balance, totalIncome, totalExpense }) => {
   <div className="flex justify-between">
     <div className="flex flex-col gap-3">
       <h2 className="text-gray-500 text-sm">Income</h2>
-      <p className="text-2xl font-bold text-green-600">
+      <p className="text-2xl font-bold ">
         ₹ {totalIncome.toLocaleString()}
       </p>
     </div>
@@ -40,7 +40,7 @@ const SummaryCards = ({ balance, totalIncome, totalExpense }) => {
   <div className="flex justify-between">
     <div className="flex flex-col gap-3">
       <h2 className="text-gray-500 text-sm">Expenses</h2>
-      <p className="text-2xl font-bold text-red-600">
+      <p className="text-2xl font-bold ">
         ₹ {totalExpense.toLocaleString()}
       </p>
     </div>

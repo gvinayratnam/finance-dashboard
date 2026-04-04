@@ -147,28 +147,32 @@ const Dashboard = () => {
 
       <SummaryCards balance={balance} totalIncome={totalIncome} totalExpense={totalExpense} />
 
-      <hr />
-{/* 
-      <div className="flex gap-2 my-4">
-        <select className="border p-2 rounded" value={year} onChange={e => { setYear(e.target.value); setMonth(""); }}>
+      
+
+      <div className="flex gap-2 my-4 container-p">
+        <select className="border p-2 rounded" 
+          value={year} 
+          onChange={e => { setYear(e.target.value); setMonth(""); }}>
           <option value="all">All Years</option>
           {years.map(y => <option key={y} value={y}>{y}</option>)}
         </select>
 
-        <select className="border p-2 rounded" value={month} disabled={year === "all"} onChange={e => setMonth(e.target.value)}>
+        <select className="border p-2 rounded" 
+          value={month} disabled={year === "all"} 
+          onChange={e => setMonth(e.target.value)}>
           <option value="">All Months</option>
           {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map(m => (
             <option key={m} value={m}>{m}</option>
           ))}
         </select>
-      </div> */}
+      </div>
 
-      <hr />
-      {/* <Charts lineData={lineData} year={year} pieData={pieData} /> */}
+      
+      <Charts lineData={lineData} year={year} pieData={pieData} />
 
-      <hr />
+      
 
-      <Filters setSearch={setSearch} setCategory={setCategory} setType={setType} />
+      {/* <Filters setSearch={setSearch} setCategory={setCategory} setType={setType} /> */}
 
       
 

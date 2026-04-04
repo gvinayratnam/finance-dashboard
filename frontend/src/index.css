@@ -47,3 +47,11 @@ body {
   background-color: #dce3fd !important;
   color: #4f39f6 !important; /* cleaner */
 }
+
+.recharts-wrapper:focus {
+  outline: none;
+}
+
+.recharts-surface:focus {
+  outline: none;
+}
