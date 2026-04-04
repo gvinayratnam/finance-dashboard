@@ -5,7 +5,7 @@ const CATEGORIES = ["Shopping", "Food", "Utilities", "Entertainment", "Healthcar
 const TransactionForm = ({ formData, handleChange, handleAdd, editId, onClose }) => {
   return (
     // Backdrop
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div  className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
       {/* Modal box */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md mx-4 p-6">

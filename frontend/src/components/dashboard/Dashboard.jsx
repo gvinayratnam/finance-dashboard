@@ -46,13 +46,13 @@ const Dashboard = () => {
     <div className=" min-h-screen bg-white dark:bg-gray-900 text-gray-900 ">
 
       <nav className="flex justify-between items-center border-b border-b-gray-200 dark:border-b-gray-600 container-p sm:py-5 py-3">
-        
+
         {/* left */}
         <div className="flex items-center sm:gap-2 gap-1">
           <p className="bg-indigo-600 sm:text-3xl text-lg text-white font-semibold sm:h-13 sm:w-13 h-7 w-7 sm:rounded-2xl rounded-lg flex items-center justify-center ">F</p>
           <div>
             <h1 className="sm:text-2xl text-lg font-medium sm:font-semibold dark:text-white">FinanceHub</h1>
-            <p className="text-gray-400 text-xs sm:block hidden ">Financial Dashboard</p>
+            <p className="text-gray-500 text-xs sm:block hidden ">Financial Dashboard</p>
           </div>
           
         </div>
@@ -114,11 +114,38 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      <div>
+      <div className="flex justify-between py-4 items-center container-p gap-3">
+        <div>
+          <h1 className="sm:text-3xl text-lg font-semibold">Dashboard Overview</h1>
+          <p className="text-gray-500 sm:text-base text-xs">Welcome back! Here's your financial summary.</p>
+        </div>
+        
+        <div>
+          {role === "admin" && (
+        <>
+          <button
+            onClick={() => setShowForm(true)}
+            className=" sm:px-3 px-2 py-2 text-xs sm:text-base bg-indigo-600 border hover:bg-indigo-700 text-white sm:rounded-xl rounded-lg sm:font-medium">
+            Add <span className="sm:inline hidden">Transaction</span>
+          </button>
+
+          {showForm && (
+            <TransactionForm
+              formData={formData}
+              handleChange={handleChange}
+              editId={editId}
+              handleAdd={() => handleAdd(formData, editId, resetForm)}
+              onClose={resetForm}
+            />
+          )}
+        </>
+      )}
+              
+        </div>
 
       </div>
 
-      {/* <SummaryCards balance={balance} totalIncome={totalIncome} totalExpense={totalExpense} /> */}
+      <SummaryCards balance={balance} totalIncome={totalIncome} totalExpense={totalExpense} />
 
       <hr />
 {/* 
@@ -143,26 +170,7 @@ const Dashboard = () => {
 
       <Filters setSearch={setSearch} setCategory={setCategory} setType={setType} />
 
-      {role === "admin" && (
-        <>
-          <button
-            onClick={() => setShowForm(true)}
-            className="mb-4 px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium"
-          >
-            + Add Transaction
-          </button>
-
-          {showForm && (
-            <TransactionForm
-              formData={formData}
-              handleChange={handleChange}
-              editId={editId}
-              handleAdd={() => handleAdd(formData, editId, resetForm)}
-              onClose={resetForm}
-            />
-          )}
-        </>
-      )}
+      
 
       {/* <TransactionTable transactions={filteredTransactions} role={role} onDelete={handleDelete}
         onEdit={t => { setFormData(t); setEditId(t.id); setShowForm(true); }} /> */}
