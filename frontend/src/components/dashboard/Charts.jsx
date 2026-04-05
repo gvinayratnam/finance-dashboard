@@ -78,7 +78,7 @@ const CustomPieTooltip = ({ active, payload, data }) => {
 
 
 const Charts = React.memo(({ lineData, year, pieData }) => {
-  
+    console.log(lineData,pieData)
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 container-p mb-10">
 
@@ -111,38 +111,42 @@ const Charts = React.memo(({ lineData, year, pieData }) => {
         </div>
       </div>
 
+
       {/* Pie Chart */}
       <div className="bg-white sm:p-5 p-3 rounded-xl dark:bg-gray-700 shadow-[0_0_10px_rgba(0,0,0,0.10)] h-full flex flex-col">
         <h2 className="font-semibold text-xl dark:text-white">Spending by Category</h2>
         <p className="mb-4 text-gray-400 text-sm">
           Breakdown of your expenses
         </p>
-
-        <div className="flex justify-center items-center">
-          <ResponsiveContainer width="100%" height={350}>
-            <PieChart>
-              <Pie
-            
-                data={pieData}
-                dataKey="value"
-                outerRadius={100}
-                label={({ value }) => (value > 400 ? value : "")}
-                labelLine={false}
+        
+        {!pieData || pieData.length === 0 ? (
+          <div className="flex justify-center items-center h-87.5 text-gray-400">
+            No data available
+          </div>
+        ) : (
+          <div className="flex justify-center items-center">
+            <ResponsiveContainer width="100%" height={350}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  outerRadius={100}
+                  labelLine={false}
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
                 
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-
-              <Tooltip content={<CustomPieTooltip data={pieData} />} />
-              <Legend verticalAlign="bottom" iconType="circle"  iconSize={8}  wrapperStyle={{ fontSize: "12px" }}/>
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+                <Tooltip content={<CustomPieTooltip data={pieData} />} />
+                <Legend verticalAlign="bottom" iconType="circle" iconSize={8} wrapperStyle={{ fontSize: "12px" }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
     </div>
   );
 });
-
+      
 export default Charts;

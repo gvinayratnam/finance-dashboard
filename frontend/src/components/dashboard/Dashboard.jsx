@@ -13,6 +13,9 @@ import { calculateSummary } from "../../utils.js/calculations";
 import { useTheme } from "../../hooks/useTheme";
 import { FiChevronDown, FiUser } from "react-icons/fi";
 import { IoSunny, IoSunnyOutline } from "react-icons/io5";
+import {  FiCalendar } from "react-icons/fi";
+import FinancialInsights from "./FinancialInsights";
+
 
 const emptyFrom = {
   title: "", amount: "", category: "", type: "expense",
@@ -147,37 +150,117 @@ const Dashboard = () => {
 
       <SummaryCards balance={balance} totalIncome={totalIncome} totalExpense={totalExpense} />
 
-      
+      <div className="container-p">
+        <FinancialInsights transactions={transactions} />
+      </div>
+      <div className="flex gap-2 my-4 container-p flex-nowrap">
+          
+        {/* Year */}
+        <div className="w-1/2 sm:w-auto flex items-center gap-1 bg-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 rounded-lg sm:rounded-xl">
+          <Select
+            className="w-full sm:w-40"
+            value={year}
+            onChange={(value) => {
+              setYear(value);
+              setMonth("");
+            }}
+            suffixIcon={
+              <FiChevronDown className="text-gray-600 dark:text-gray-300" />
+            }
+            variant="borderless"
+            dropdownMatchSelectWidth={false}
+            popupClassName="custom-select-dropdown"   // ✅ ADD THIS
+            placeholder="All Years"
+            labelRender={({ value }) => (
+              <div className="flex items-center gap-2 py-1 px-1">
+                <FiCalendar className="text-indigo-400" />
+                <span className="dark:text-white">
+                  {value === "all" ? "All Years" : value}
+                </span>
+              </div>
+            )}
+            options={[
+              { value: "all", label: "All Years" },
+              ...years.map((y) => ({
+                value: y,
+                label: y,
+              })),
+            ]}
+          />
+        </div>
 
-      <div className="flex gap-2 my-4 container-p">
-        <select className="border p-2 rounded" 
-          value={year} 
-          onChange={e => { setYear(e.target.value); setMonth(""); }}>
-          <option value="all">All Years</option>
-          {years.map(y => <option key={y} value={y}>{y}</option>)}
-        </select>
+          
+        {/* Month */}
+        <div
+          className={`w-1/2 sm:w-auto flex items-center gap-1 rounded-lg sm:rounded-xl transition-all duration-200
+            ${year === "all"
+              ? "bg-gray-100 dark:bg-gray-800 opacity-50 cursor-not-allowed"
+              : "bg-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 dark:bg-gray-700 cursor-pointer"
+            }`}
+        >
+          <Select
+            className="w-full sm:w-40"
+            value={month}
+            onChange={(value) => setMonth(value)}
+            disabled={year === "all"}
+            suffixIcon={
+              <FiChevronDown
+                className={year === "all"
+                  ? "text-gray-400 dark:text-gray-500"
+                  : "text-gray-600 dark:text-gray-300"
+                }
+              />
+            }
+            variant="borderless"
+            dropdownMatchSelectWidth={false}
+            popupClassName="custom-select-dropdown"
+            placeholder="All Months"
+            labelRender={({ value }) => (
+              <div className="flex items-center gap-2 py-1 px-1">
+                <FiCalendar
+                  className={year === "all" ? "text-gray-400" : "text-indigo-400"}
+                />
+                <span
+                  className={year === "all"
+                    ? "text-gray-400 dark:text-gray-500"
+                    : "dark:text-white"
+                  }
+                >
+                  {value || "All Months"}
+                </span>
+              </div>
+            )}
+            options={[
+              { value: "", label: "All Months" },
+              ...["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map(
+                (m) => ({ value: m, label: m })
+              ),
+            ]}
+          />
+        </div>
 
-        <select className="border p-2 rounded" 
-          value={month} disabled={year === "all"} 
-          onChange={e => setMonth(e.target.value)}>
-          <option value="">All Months</option>
-          {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].map(m => (
-            <option key={m} value={m}>{m}</option>
-          ))}
-        </select>
       </div>
 
       
       <Charts lineData={lineData} year={year} pieData={pieData} />
 
+      <div className="container-p">
+          <h2 className="text-4xl font-semibold mb-1 dark:text-white">Transactions</h2>
+          {role === "viewer" && (
+            <p className="text-sm text-gray-500 mb-3">
+              Read-only access
+            </p>
+          )}
+          <Filters setSearch={setSearch} setCategory={setCategory} setType={setType} />
+          <TransactionTable transactions={filteredTransactions} role={role} onDelete={handleDelete}
+          onEdit={t => { setFormData(t); setEditId(t.id); setShowForm(true); }} />
+      </div>
+
       
 
-      {/* <Filters setSearch={setSearch} setCategory={setCategory} setType={setType} /> */}
-
       
 
-      {/* <TransactionTable transactions={filteredTransactions} role={role} onDelete={handleDelete}
-        onEdit={t => { setFormData(t); setEditId(t.id); setShowForm(true); }} /> */}
+      
     </div>
   );
 };

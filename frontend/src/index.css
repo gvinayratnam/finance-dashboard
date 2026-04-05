@@ -55,3 +55,32 @@ body {
 .recharts-surface:focus {
   outline: none;
 }
+/* ── Track ── */
+.custom-select-dropdown .rc-virtual-list-scrollbar {
+  width: 6px !important;
+  background: #374151 !important; /* gray-700 */
+  border-radius: 999px !important;
+  right: 2px !important;
+}
+
+/* ── Thumb ── */
+.custom-select-dropdown .rc-virtual-list-scrollbar-thumb {
+  background: #6366f1 !important; /* indigo-500 */
+  border-radius: 999px !important;
+}
+
+/* ── Fallback: native scrollbar (Webkit) ── */
+.custom-select-dropdown .rc-virtual-list-holder::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-select-dropdown .rc-virtual-list-holder::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 999px;
+}
+.custom-select-dropdown .rc-virtual-list-holder::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 999px;
+}
+.ant-select-disabled {
+  pointer-events: none !important;
+}

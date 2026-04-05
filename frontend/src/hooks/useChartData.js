@@ -28,7 +28,7 @@ export const useChartData = (transactions, year, month) => {
     const monthMap = {};
     transactions.forEach(t => {
       const date = new Date(t.date);
-      if (date.getFullYear().toString() === year) {
+      if (date.getFullYear().toString() === year.toString()) {
         const m = date.toLocaleDateString("default", { month: "short" });
         if (!monthMap[m]) monthMap[m] = { income: 0, expense: 0 };
         if (t.type === "income") monthMap[m].income += t.amount;
@@ -50,7 +50,7 @@ export const useChartData = (transactions, year, month) => {
     transactions
       .filter(t => {
         const date = new Date(t.date);
-        const yearMatch = year === "all" || date.getFullYear().toString() === year;
+        const yearMatch = year === "all" || date.getFullYear().toString() === year.toString();
         const monthMatch = month === "" || date.toLocaleDateString("default", { month: "short" }) === month;
         return yearMatch && monthMatch && t.type === "expense";
       })
