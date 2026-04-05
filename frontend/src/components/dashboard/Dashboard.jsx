@@ -15,6 +15,10 @@ import { FiChevronDown, FiUser } from "react-icons/fi";
 import { IoSunny, IoSunnyOutline } from "react-icons/io5";
 import {  FiCalendar } from "react-icons/fi";
 import FinancialInsights from "./FinancialInsights";
+import SummaryCardsSkeleton from "./SummaryCardsSkeleton";
+import FinancialInsightsSkeleton from "./FinancialInsightsSkeleton";
+import ChartsSkeleton from "./ChartsSkeleton";
+import TransactionTableSkeleton from "../transactions/TransactionTableSkeleton";
 
 
 const emptyFrom = {
@@ -45,6 +49,31 @@ const Dashboard = () => {
   const { setSearch, setCategory, setType, filteredTransactions } = useFilters(transactions);
   const { totalIncome, totalExpense, balance } = calculateSummary(transactions);
 
+  const downloadJSON = (data, filename) => {
+    if (!data || data.length === 0) {
+      alert("No data available to download");
+      return;
+    }
+
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+    const handleDownloadAll = () => {
+    downloadJSON(transactions, `all-transactions-${Date.now()}.json`);
+  };
+
+  const handleDownloadFiltered = () => {
+    downloadJSON(filteredTransactions, `filtered-transactions-${Date.now()}.json`);
+  };
   return (
     <div className=" min-h-screen bg-white dark:bg-gray-900 text-gray-900 ">
 
@@ -147,11 +176,23 @@ const Dashboard = () => {
         </div>
 
       </div>
-
-      <SummaryCards balance={balance} totalIncome={totalIncome} totalExpense={totalExpense} />
+      
+      {transactions.length === 0 ? (
+          <SummaryCardsSkeleton />
+        ) : (
+          <SummaryCards 
+            balance={balance} 
+            totalIncome={totalIncome} 
+            totalExpense={totalExpense} 
+          />
+        )}
 
       <div className="container-p">
-        <FinancialInsights transactions={transactions} />
+        {transactions.length === 0 ? (
+          <FinancialInsightsSkeleton />
+        ) : (
+          <FinancialInsights transactions={transactions} />
+        )}
       </div>
       <div className="flex gap-2 my-4 container-p flex-nowrap">
           
@@ -242,25 +283,62 @@ const Dashboard = () => {
       </div>
 
       
-      <Charts lineData={lineData} year={year} pieData={pieData} />
+      {transactions.length === 0 ? (<ChartsSkeleton />) : (<Charts lineData={lineData} year={year} pieData={pieData} />)}
 
       <div className="container-p">
-          <h2 className="text-4xl font-semibold mb-1 dark:text-white">Transactions</h2>
-          {role === "viewer" && (
-            <p className="text-sm text-gray-500 mb-3">
-              Read-only access
-            </p>
-          )}
+          <div className="flex justify-between gap-4 sm:flex-row flex-col mb-2">
+            <div>
+              <h2 className="text-4xl font-semibold dark:text-white">Transactions</h2>
+              {role === "viewer" && (
+                <p className="text-sm text-gray-500">
+                  Read-only access
+                </p>
+              )}
+            </div>
+            
+            {/* Download Buttons */}
+            <div className="flex gap-2">
+
+              <button
+                onClick={handleDownloadAll}
+                className="flex items-center gap-1 px-3 py-2 text-xs sm:text-sm 
+                bg-gray-200 hover:bg-gray-300 
+                dark:bg-gray-700 dark:hover:bg-gray-600 
+                text-gray-800 dark:text-white 
+                rounded-lg sm:rounded-xl transition"
+              >
+                Download All
+              </button>
+            
+              <button
+                onClick={handleDownloadFiltered}
+                className="flex items-center gap-1 px-3 py-2 text-xs sm:text-sm 
+                bg-indigo-100 hover:bg-indigo-200 
+                dark:bg-indigo-600/20 dark:hover:bg-indigo-600/40 
+                text-indigo-600 dark:text-indigo-300 
+                rounded-lg sm:rounded-xl transition"
+              >
+                Download Filtered
+              </button>
+            
+            </div>
+          </div>
           <Filters setSearch={setSearch} setCategory={setCategory} setType={setType} />
-          <TransactionTable transactions={filteredTransactions} role={role} onDelete={handleDelete}
-          onEdit={t => { setFormData(t); setEditId(t.id); setShowForm(true); }} />
+          {transactions.length === 0 ? (<TransactionTableSkeleton role={role} />) : (
+              <TransactionTable
+                transactions={filteredTransactions}
+                role={role}
+                onDelete={handleDelete}
+                onEdit={t => {
+                  setFormData(t);
+                  setEditId(t.id);
+                  setShowForm(true);
+                }}
+              />
+            )}
       </div>
 
-      
-
-      
-
-      
+    
     </div>
   );
 };

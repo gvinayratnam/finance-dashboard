@@ -5,9 +5,13 @@ export const useTransactions = () => {
   const [transactions, setTransactions] = useState([]);
 
   const fetchTransactions = async () => {
-    const res = await getTransactions();
+  const res = await getTransactions();
+
+  // ⏳ add delay (1 second)
+  setTimeout(() => {
     setTransactions(res.data);
-  };
+  }, 1000);
+};
 
   useEffect(() => {
     fetchTransactions();
