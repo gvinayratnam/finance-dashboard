@@ -337,7 +337,23 @@ const Dashboard = () => {
               />
             )}
       </div>
+      <footer className="mt-10 border-t border-gray-200 dark:border-gray-700 py-4">
+        <div className="container-p flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
 
+          {/* Left */}
+          <p>
+            © {new Date().getFullYear()} FinanceHub. All rights reserved.
+          </p>
+
+          {/* Right */}
+          <div className="flex gap-4">
+            <span className="hover:text-indigo-500 cursor-pointer">Privacy</span>
+            <span className="hover:text-indigo-500 cursor-pointer">Terms</span>
+            <span className="hover:text-indigo-500 cursor-pointer">Contact</span>
+          </div>
+
+        </div>
+      </footer>
     
     </div>
   );
