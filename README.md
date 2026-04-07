@@ -186,9 +186,9 @@ balance = income - expense
 
 ---
 
-## Assignment Requirements Coverage
+## Coverage
 
-This project satisfies the core requirements of the assignment:
+This project satisfies the core requirements of the:
 
 * Dashboard overview with summary and visualizations
 * Transactions section with filtering and search
