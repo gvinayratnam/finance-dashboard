@@ -28,7 +28,7 @@ const FinancialInsights = ({ transactions = [] }) => {
       ? ((totalIncome - totalExpense) / totalIncome) * 100
       : 0;
 
-  // Largest Expense (FIX: no mutation)
+  // Largest Expense 
   const largestExpense =
     expenses.length > 0
       ? [...expenses].sort((a, b) => b.amount - a.amount)[0]
